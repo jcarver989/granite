@@ -6,8 +6,14 @@ import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.Node
 
 class WebappSpec extends FunSpec with Matchers {
-  val view = Component[String](expectedView)
-  val app = new Webapp(view, "Bob")
+  class TestApp() extends BedrockApp[String] {
+    override protected val initialState = "Bob"
+    override protected val view = Component[String](expectedView)
+    def start(root: Node): Unit = renderer.start(root)
+    def getEvents() = events
+  }
+  
+  val app = new TestApp() 
 
   it("should render hello") {
     val root = div().render
@@ -19,7 +25,7 @@ class WebappSpec extends FunSpec with Matchers {
     val root = div().render
     app.start(root)
     val changeName: String => String = s => "Amy"
-    app.events.fireEvent(StateChangeRequest(changeName))
+    app.getEvents.fireEvent(StateChangeRequest(changeName))
     root.isEqualNode(expectedView("Amy")) shouldBe true
   }
 
