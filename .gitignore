@@ -1,0 +1,11 @@
+/bin/
+target/*
+.cache-main
+.cache-tests
+project/target/*
+.sass-cache
+project/**/target
+.classpath
+.settings/
+css/
+/target/
