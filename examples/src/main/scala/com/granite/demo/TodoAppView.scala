@@ -1,4 +1,4 @@
-package com.bedrock.demo
+package com.granite.demo
 
 import com.bedrock.{ Component, Controller }
 import org.scalajs.dom.ext.KeyCode

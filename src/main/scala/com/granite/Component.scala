@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 import org.scalajs.dom.raw.Node
 

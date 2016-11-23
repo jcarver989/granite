@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 /**
  * Manages the Application's state.

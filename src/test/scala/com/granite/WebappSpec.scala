@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 import org.scalatest._
 import scalatags.JsDom.all._
@@ -6,7 +6,7 @@ import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.Node
 
 class WebappSpec extends FunSpec with Matchers {
-  class TestApp() extends BedrockApp[String] {
+  class TestApp() extends GraniteApp[String] {
     override protected val initialState = "Bob"
     override protected val view = Component[String](expectedView)
     def start(root: Node): Unit = renderer.start(root)

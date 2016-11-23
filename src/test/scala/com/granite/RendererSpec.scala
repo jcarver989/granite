@@ -1,7 +1,8 @@
-package com.bedrock
+package com.granite
 
 import org.scalatest._
 import scalatags.JsDom.all._
+
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.Node
 

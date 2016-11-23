@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 import org.scalatest._
 import scalatags.JsDom.all._

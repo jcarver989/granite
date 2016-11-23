@@ -1,4 +1,4 @@
-package com.bedrock.demo
+package com.granite.demo
 
 sealed trait TodoEvent
 

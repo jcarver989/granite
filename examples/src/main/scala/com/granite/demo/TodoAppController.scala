@@ -1,4 +1,4 @@
-package com.bedrock.demo
+package com.granite.demo
 
 import com.bedrock.{ AppEvent, Controller, Events, StateChangeRequest }
 

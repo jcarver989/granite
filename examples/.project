@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>Bedrock Example</name>
+  <name>Granite Example</name>
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>

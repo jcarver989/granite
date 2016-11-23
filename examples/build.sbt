@@ -2,9 +2,9 @@ import sbt._
 import Keys._
 
 enablePlugins(ScalaJSPlugin)
-name := "Bedrock Example"
+name := "Granite Example"
 scalaVersion := "2.11.8" 
-organization := "com.bedrock"
+organization := "com.granite"
 version := "0.0.1"
 scalacOptions := Seq(
     "-deprecation",
@@ -19,7 +19,7 @@ scalacOptions := Seq(
     "-Xfuture")
 
 
-libraryDependencies += "com.bedrock" %%% "bedrock" % "0.0.1"
+libraryDependencies += "com.granite" %%% "granite" % "0.0.1"
 
 scalaJSUseRhino in Global := false
 requiresDOM := true

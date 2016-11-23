@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 /**
  * Controllers have one responsibility, they map a view event (T) into a request to change the application's state.

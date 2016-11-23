@@ -1,4 +1,4 @@
-package com.bedrock
+package com.granite
 
 import org.scalajs.dom.raw.{ Node, PopStateEvent }
 import org.scalajs.dom.window
