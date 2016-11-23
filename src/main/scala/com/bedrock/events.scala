@@ -3,7 +3,7 @@ package com.bedrock
 import scala.collection.mutable.Buffer
 import scala.reflect.{ ClassTag, classTag }
 
-/** Represents an event fired by the app  */
+/** Represents an event fired by the app. All application events should extend this  */
 trait AppEvent
 
 /** Fired when the app first loads */
@@ -52,10 +52,3 @@ class StubEvents[T: ClassTag]() extends Events[T] {
   }
 }
 
-trait Controller[T, U] {
-  def handleEvent(event: T): Unit = {
-    events.fireEvent(onEvent(event))
-  }
-  protected def events: Events[AppEvent]
-  protected def onEvent(event: T): StateChangeRequest[U]
-}
