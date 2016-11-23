@@ -1,6 +1,6 @@
 package com.granite.demo
 
-import com.bedrock.{ AppEvent, Controller, Events, StateChangeRequest }
+import com.granite.{ AppEvent, Controller, Events, StateChangeRequest }
 
 /**
  * A controller's sole job is to map a UI event into a request to change the application's state (i.e. a StateChangeRequest)

@@ -1,6 +1,6 @@
 package com.granite.demo
 
-import com.bedrock.{ BedrockApp, LocalStorage, StateChange }
+import com.granite.{ GraniteApp, LocalStorage, StateChange }
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.HashChangeEvent
 import org.scalajs.dom.window
@@ -8,7 +8,7 @@ import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.JSApp
 
 /** The entry point & main() method of our application */
-object TodoApp extends BedrockApp[TodoList] with JSApp {
+object TodoApp extends GraniteApp[TodoList] with JSApp {
   private val storageKey = "state"
   private val localStorage = new LocalStorage[TodoList]()
   private val locationController = new LocationController(events)

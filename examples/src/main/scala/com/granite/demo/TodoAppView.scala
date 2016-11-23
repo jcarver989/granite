@@ -1,6 +1,6 @@
 package com.granite.demo
 
-import com.bedrock.{ Component, Controller }
+import com.granite.{ Component, Controller }
 import org.scalajs.dom.ext.KeyCode
 import org.scalajs.dom.html.Input
 import org.scalajs.dom.raw.{ Event, KeyboardEvent, Node }

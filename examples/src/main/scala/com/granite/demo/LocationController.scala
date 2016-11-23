@@ -1,6 +1,6 @@
 package com.granite.demo
 
-import com.bedrock.{ AppEvent, Controller, Events, StateChangeRequest }
+import com.granite.{ AppEvent, Controller, Events, StateChangeRequest }
 import org.scalajs.dom.raw.HashChangeEvent
 
 // asks the application state to change the todo-filter when the browser's location changes
