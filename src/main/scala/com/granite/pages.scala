@@ -31,7 +31,7 @@ class PageRouter[T: HasPages](events: Events[AppEvent], routes: (String, Compone
       history.pushState(new PageHistory(currentUrl), "", currentUrl)
     }
 
-    routeMap(ev.getSelectedPage(state)).render(state)
+    routeMap(ev.getSelectedPage(state)).renderNode(state)
   }
 }
 

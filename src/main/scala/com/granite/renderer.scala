@@ -15,7 +15,7 @@ class Renderer[T](initialState: T, view: Component[T], events: Events[AppEvent])
   def start(root: Node): Unit = {
     val store = new StateStore(initialState, events)
     events.onEvent { e: StateChange[T] =>
-      morphdom(root, view.render(e.state))
+      morphdom(root, view.renderNode(e.state))
     }
 
     store.init()

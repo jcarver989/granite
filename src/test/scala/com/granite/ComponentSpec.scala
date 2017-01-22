@@ -11,6 +11,6 @@ class ComponentSpec extends FunSpec with Matchers {
   }
 
   it("should render a view") {
-    view.render("Tom").isEqualNode(div(s"You look great today, Tom").render) shouldBe true
+    view.renderNode("Tom").isEqualNode(div(id := view.domId, s"You look great today, Tom").render) shouldBe true
   }
 }

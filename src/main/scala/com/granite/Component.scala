@@ -14,11 +14,11 @@ trait Component[T] {
   // that will get attached to its corresponding DOM node (from the render() method).
   // this helps the diffing-algorithm differentiate between different components 
   // (ex multiple instances of the same component)
-  val id = java.util.UUID.randomUUID.toString
-  def render(state: T): Element
-  def renderWithId(state: T): Element = {
+  val domId = java.util.UUID.randomUUID.toString
+  protected def render(state: T): Element
+  def renderNode(state: T): Element = {
     val output = render(state)
-    output.setAttribute("id", id)
+    output.setAttribute("id", domId)
     output
   }
 }
