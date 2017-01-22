@@ -3,7 +3,7 @@ package com.granite.demo
 import com.granite.{ Component, Controller }
 import org.scalajs.dom.ext.KeyCode
 import org.scalajs.dom.html.Input
-import org.scalajs.dom.raw.{ Event, KeyboardEvent, Node }
+import org.scalajs.dom.raw.{ Event, KeyboardEvent, Element }
 import scalatags.JsDom.all._
 
 /**
@@ -26,7 +26,7 @@ import scalatags.JsDom.all._
 class AppView(controller: Controller[TodoEvent, TodoList]) extends Component[TodoList] {
   import controller.handleEvent // really just to save typing
 
-  override def render(state: TodoList): Node = {
+  override def render(state: TodoList): Element = {
     div(cls := "todoapp",
       header(state),
       if (state.todos.isEmpty) div().render else todoList(state.filteredTodos),
@@ -34,7 +34,7 @@ class AppView(controller: Controller[TodoEvent, TodoList]) extends Component[Tod
     ).render
   }
 
-  private def header(state: TodoList): Node = {
+  private def header(state: TodoList): Element = {
     val onKeyUp = { e: KeyboardEvent =>
       val value = e.target.asInstanceOf[Input].value // safe cast since we know this handler is only bound to the input below
       handleEvent(NewTodoFieldUpdatedEvent(value, e.keyCode == KeyCode.Enter))
@@ -52,7 +52,7 @@ class AppView(controller: Controller[TodoEvent, TodoList]) extends Component[Tod
     ).render
   }
 
-  private def todoList(todos: Seq[Todo]): Node = {
+  private def todoList(todos: Seq[Todo]): Element = {
     div(cls := "main",
       input(cls := "toggle-all", `type` := "checkbox"),
       label(`for` := "toggle-all", "Mark all as complete"),
@@ -63,7 +63,7 @@ class AppView(controller: Controller[TodoEvent, TodoList]) extends Component[Tod
     ).render
   }
 
-  private def todoItem(todo: Todo): Node = {
+  private def todoItem(todo: Todo): Element = {
     val onKeyUp = { e: KeyboardEvent =>
       if (e.keyCode == KeyCode.Enter) {
         val value = e.target.asInstanceOf[Input].value // safe cast since we know this handler is only bound to the input below
@@ -88,7 +88,7 @@ class AppView(controller: Controller[TodoEvent, TodoList]) extends Component[Tod
     ).render
   }
 
-  private def footer(todos: Seq[Todo], filter: Filter): Node = {
+  private def footer(todos: Seq[Todo], filter: Filter): Element = {
     val remainingItems = todos.filterNot(_.completed).size
     val pluralModifier = if (remainingItems > 1) "s" else ""
     div(cls := "footer",
