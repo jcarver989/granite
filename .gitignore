@@ -9,3 +9,6 @@ project/**/target
 .settings/
 css/
 /target/
+node_modules/
+.ensime
+.ensime_cache/

@@ -6,6 +6,7 @@ import org.scalajs.dom.window.history
 import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.annotation.ScalaJSDefined
+import org.scalajs.dom.raw.Element
 
 /** Typeclass for Applications that want to have page routing */
 trait HasPages[T] {
@@ -23,7 +24,7 @@ class PageRouter[T: HasPages](events: Events[AppEvent], routes: (String, Compone
     events.fireEvent(StateChangeRequest(ev.selectPage(url, _: T)))
   })
 
-  override def render(state: T): Node = {
+  override def render(state: T): Element = {
     val currentUrl = ev.getSelectedPage(state)
     val windowUrl = window.location.href.split("/").last
     if (currentUrl != windowUrl) {

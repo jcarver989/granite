@@ -27,7 +27,7 @@ class RendererSpec extends FunSpec with Matchers {
   // Our app's view, extracted as a helper function here
   // so we can avoid having to use the "val view = ..." component's render()
   // method above.  
-  private def expectedView(name: String): Node = {
+  private def expectedView(name: String): Element = {
     div(s"Hello ${name}",
       span("how are you ", span(cls := "green", "today?"))
     ).render
