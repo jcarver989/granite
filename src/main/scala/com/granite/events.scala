@@ -1,7 +1,9 @@
 package com.granite
 
 import scala.collection.mutable.Buffer
-import scala.reflect.{ ClassTag, classTag }
+import scala.concurrent.Future
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /** Represents an event fired by the app. All application events should extend this  */
 trait AppEvent
@@ -15,7 +17,16 @@ case object AppLoad extends AppEvent
  *  Since view components don't have direct access to the state, they send a function
  *  that accepts the "current" state and returns the "new" state.
  */
-case class StateChangeRequest[T](mapCurrentStateToNewState: (T) => T) extends AppEvent
+object StateChangeRequest {
+  def apply[T](mapCurrentStateToNewState: (T) => T)(implicit d: DummyImplicit): StateChangeRequest[T] = {
+    new StateChangeRequest(lift(mapCurrentStateToNewState))
+  }
+
+  private def lift[T](mapCurrentStateToNewState: (T) => T)(state: T): Future[T] = {
+    Future.successful(mapCurrentStateToNewState(state))
+  }
+}
+case class StateChangeRequest[T](mapCurrentStateToNewState: (T) => Future[T]) extends AppEvent
 
 /** Fired from the StateStore when the Application state changes */
 case class StateChange[T](state: T, triggeredBy: AppEvent) extends AppEvent

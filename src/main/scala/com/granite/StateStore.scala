@@ -1,5 +1,7 @@
 package com.granite
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 /**
  * Manages the Application's state.
  *
@@ -12,8 +14,10 @@ class StateStore[T](initialState: T, events: Events[AppEvent]) {
 
   def init(): Unit = {
     events.onEvent { e: StateChangeRequest[T] =>
-      cachedState = e.mapCurrentStateToNewState(cachedState)
-      events.fireEvent(StateChange(cachedState, e))
+      e.mapCurrentStateToNewState(cachedState).foreach { state =>
+        cachedState = state
+        events.fireEvent(StateChange(cachedState, e))
+      }
     }
 
     events.fireEvent(StateChange(currentState, AppLoad))
