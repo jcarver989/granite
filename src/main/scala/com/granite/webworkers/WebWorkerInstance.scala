@@ -10,17 +10,18 @@ import upickle.default.Writer
 import upickle.default.read
 import upickle.default.write
 
-/** An "instance" of a web-worker, i.e. the code that the worker runs internally.
- *  
+/**
+ * An "instance" of a web-worker, i.e. the code that the worker runs internally.
+ *
  *  A WebWorkerInstance responds to messages of type T (which may be a super-class/trait) and the response
  *  to the message is provided via the onMessage() method, which downstream applications are expected to implement themselves.
  *  Typically the type T should be a trait, which various case classes extend so that in onMessage() you may pattern
- *  match against them and take appropriate action. 
- *   
+ *  match against them and take appropriate action.
+ *
  *  Web workers should be created via a WorkerPool, which is passed a WebWorkerInstance via the constructor.
- *  Downstream applications should extend this class and override the onMessage() method to provide responses 
- *   */
-abstract class WebWorkerInstance[T <: Task : Reader : Writer] extends JSApp {
+ *  Downstream applications should extend this class and override the onMessage() method to provide responses
+ */
+abstract class WebWorkerInstance[T <: WebWorkerTask: Reader: Writer] extends JSApp {
   val scriptDependencies: Seq[String]
   def onMessage(msg: T): T
 
@@ -30,5 +31,4 @@ abstract class WebWorkerInstance[T <: Task : Reader : Writer] extends JSApp {
       self.postMessage(write(response))
     })
   }
-
-}
+} 

@@ -19,7 +19,7 @@ import scala.reflect.ClassTag
  *  Incoming tasks, are sent to the worker that currently has the smallest
  *  number of open (unfulfilled) requests
  */
-class WorkerPool[T <: Task: Reader](
+class WorkerPool[T <: WebWorkerTask: Reader](
     app: WebWorkerInstance[T],
     numWorkers: Int,
     rootDependencyPath: String = window.location.origin.toString) {
@@ -41,7 +41,7 @@ class WorkerPool[T <: Task: Reader](
   private val workerUrl = URL.createObjectURL(blob)
   private val pool = (1 to numWorkers).map { n => new WorkerClient(new Worker(workerUrl)) }
 
-  def run[U <: T: Writer: Reader](task: U): Future[U] = {
+  def run[U <: T: Writer: Reader : ClassTag](task: U): Future[U] = {
     val thread = pool.sortBy { _.nRunningTasks }.head
     thread.run(task)
   }
