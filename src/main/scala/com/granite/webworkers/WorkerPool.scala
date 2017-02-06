@@ -9,6 +9,7 @@ import org.scalajs.dom.raw.Blob
 import org.scalajs.dom.raw.BlobPropertyBag
 import org.scalajs.dom.raw.Worker
 import org.scalajs.dom.window
+import NavigatorExt._
 
 import upickle.default._
 import scala.reflect.ClassTag
@@ -21,7 +22,7 @@ import scala.reflect.ClassTag
  */
 class WorkerPool[T <: WebWorkerTask: Reader](
     app: WebWorkerInstance[T],
-    numWorkers: Int,
+    numWorkers: Int = window.navigator.hardwareConcurrency,
     rootDependencyPath: String = window.location.origin.toString) {
   // Then WebWorker API assumes you create an instance of a worker via passing
   // the constructor a String representing the path to an external JS file,
