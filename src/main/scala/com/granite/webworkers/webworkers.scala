@@ -5,17 +5,16 @@ import scala.scalajs.js
 import org.scalajs.dom.raw.Worker
 
 import upickle.default._
-import upickle.default.Writer
 
-sealed trait WebWorker {
+sealed trait WebWorker[T <: WebWorkerTask] {
   def addEventListener(
     listener: WebWorkerMessage[String] => Unit,
     useCapture: Boolean = false): Unit
 
-  def postMessage[T <: WebWorkerTask: Writer](aMessage: T): Unit
+  def postMessage(aMessage: T): Unit
 }
 
-class WebWorkerImpl(url: String) extends WebWorker {
+class WebWorkerImpl[T <: WebWorkerTask : Writer](url: String) extends WebWorker[T] {
   val w = new Worker(url)
 
   def addEventListener(
@@ -24,12 +23,12 @@ class WebWorkerImpl(url: String) extends WebWorker {
     w.addEventListener("message", listener, useCapture)
   }
 
-  def postMessage[T <: WebWorkerTask: Writer](aMessage: T): Unit = {
+  def postMessage(aMessage: T): Unit = {
     w.postMessage(write(aMessage))
   }
 }
 
-class StubWebWorker() extends WebWorker {
+class StubWebWorker[T <: WebWorkerTask : Writer](fakeWorker: T => T) extends WebWorker[T] {
   private val listeners = scala.collection.mutable.Buffer[WebWorkerMessage[String] => Unit]()
   override def addEventListener(
     listener: WebWorkerMessage[String] => Unit,
@@ -37,10 +36,10 @@ class StubWebWorker() extends WebWorker {
     listeners += listener
   }
 
-  override def postMessage[T <: WebWorkerTask: Writer](
+  override def postMessage(
     aMessage: T): Unit = {
     val msg = new js.Object {
-      val data: String = write(aMessage)
+      val data: String = write(fakeWorker(aMessage))
     }.asInstanceOf[WebWorkerMessage[String]]
     listeners.foreach { l => l(msg) }
   }

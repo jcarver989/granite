@@ -20,7 +20,7 @@ import scala.reflect.ClassTag
  *  Incoming tasks, are sent to the worker that currently has the smallest
  *  number of open (unfulfilled) requests
  */
-class WorkerPool[T <: WebWorkerTask: Reader](
+class WorkerPool[T <: WebWorkerTask: Reader : Writer](
     app: WebWorkerInstance[T],
     numWorkers: Int = window.navigator.hardwareConcurrency,
     rootDependencyPath: String = window.location.origin.toString) {
@@ -29,7 +29,7 @@ class WorkerPool[T <: WebWorkerTask: Reader](
   // containing the code the worker will execute. To avoid having to use
   // external files, which is inconvienient for Scala.js, we instead
   // "inline" the workers by creating a Blob object containing the script's code
-  // and pass its URL to the worker constructor. 
+  // and pass its URL to the worker constructor.
   private val workerCode = Vector[js.Any](s"""
     ${app.scriptDependencies.map { dep => s"importScripts('${rootDependencyPath}/${dep}')" }.mkString("\n")}
     ${app.getClass.getName.replace("$", "().main()")}
@@ -40,9 +40,9 @@ class WorkerPool[T <: WebWorkerTask: Reader](
     BlobPropertyBag("application/javascript"))
 
   private val workerUrl = URL.createObjectURL(blob)
-  private val pool = (1 to numWorkers).map { n => new WorkerClient(new WebWorkerImpl(workerUrl)) }
+  private val pool = (1 to numWorkers).map { n => new WorkerClient[T](new WebWorkerImpl(workerUrl)) }
 
-  def run[U <: T: Writer: Reader : ClassTag](task: U): Future[U] = {
+  def run[U <: T : ClassTag](task: U): Future[U] = {
     val thread = pool.sortBy { _.nRunningTasks }.head
     thread.run(task)
   }

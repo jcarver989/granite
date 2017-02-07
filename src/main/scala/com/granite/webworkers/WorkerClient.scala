@@ -9,7 +9,7 @@ import org.scalajs.dom.raw.Worker
 import upickle.default._
 import scala.reflect.ClassTag
 
-class WorkerClient[T <: WebWorkerTask: Reader](worker: WebWorker) {
+class WorkerClient[T <: WebWorkerTask: Reader](worker: WebWorker[T]) {
   // A metaphorical "queue" of outgoing requests, keyed by the taskId, that we haven't yet received responses for
   private val openRequests = scala.collection.mutable.Map[String, T => Unit]()
 
@@ -21,7 +21,7 @@ class WorkerClient[T <: WebWorkerTask: Reader](worker: WebWorker) {
   }
 
   // Sends a request to a worker
-  def run[U <: T: Reader: Writer: ClassTag](task: U): Future[U] = {
+  def run[U <: T : ClassTag](task: U): Future[U] = {
     val promise = Promise[U]()
 
     // Called when the worker responds back
