@@ -7,7 +7,7 @@ import org.scalajs.dom.raw.Navigator
 /** Adds implicit to get the number of cores on the host machine (scala-js dom lib doesn't have this in their API yet) */
 @js.native
 trait NavigatorExt extends Navigator {
-  def hardwareConcurrency(): Int = js.native
+  val hardwareConcurrency: Int = js.native
 }
 
 object NavigatorExt {

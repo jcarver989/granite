@@ -11,6 +11,7 @@ class WebappSpec extends FunSpec with Matchers {
       span("how are you ", span(cls := "green", "today?"))).render
   }
   class TestApp() extends GraniteApp[String] {
+    override protected val executorContext = BlockingExecutionContext.executor
     override protected val initialState = "Bob"
     override protected val view = testView
     def start(root: Node): Unit = renderer.start(root)

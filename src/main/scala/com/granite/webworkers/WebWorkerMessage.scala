@@ -1,6 +1,7 @@
 package com.granite.webworkers
 
 import scala.scalajs.js
+import org.scalajs.dom.raw.Event
 
 /**
  *
@@ -8,6 +9,6 @@ import scala.scalajs.js
  *  this is a wrapper class to make this easier to deal with
  */
 @js.native
-trait WebWorkerMessage[T] extends js.Object {
+trait WebWorkerMessage[T] extends Event {
   val data: T = js.native
 }

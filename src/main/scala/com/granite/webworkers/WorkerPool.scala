@@ -40,7 +40,7 @@ class WorkerPool[T <: WebWorkerTask: Reader](
     BlobPropertyBag("application/javascript"))
 
   private val workerUrl = URL.createObjectURL(blob)
-  private val pool = (1 to numWorkers).map { n => new WorkerClient(new Worker(workerUrl)) }
+  private val pool = (1 to numWorkers).map { n => new WorkerClient(new WebWorkerImpl(workerUrl)) }
 
   def run[U <: T: Writer: Reader : ClassTag](task: U): Future[U] = {
     val thread = pool.sortBy { _.nRunningTasks }.head

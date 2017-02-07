@@ -7,6 +7,8 @@ import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.Node
 
 class RendererSpec extends FunSpec with Matchers {
+  import BlockingExecutionContext._
+
   val view = Component[String] { name =>
     div(
       s"Hello ${name}",
