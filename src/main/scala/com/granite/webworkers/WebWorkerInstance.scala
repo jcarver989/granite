@@ -9,6 +9,9 @@ import upickle.default.Reader
 import upickle.default.Writer
 import upickle.default.read
 import upickle.default.write
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
+import ExecutionContext.Implicits.global
 
 /**
  * An "instance" of a web-worker, i.e. the code that the worker runs internally.
@@ -23,12 +26,14 @@ import upickle.default.write
  */
 abstract class WebWorkerInstance[T <: WebWorkerTask: Reader: Writer] extends JSApp {
   val scriptDependencies: Seq[String]
-  def onMessage(msg: T): T
+  def onMessage(msg: T): Future[T]
 
   def main(): Unit = {
     self.addEventListener("message", { e: WebWorkerMessage[String] =>
       val response = onMessage(read[T](e.data))
-      self.postMessage(write(response))
+      response.map { result =>
+        self.postMessage(write(result))
+      }
     })
   }
 } 
