@@ -31,7 +31,7 @@ abstract class WebWorkerInstance[T <: WebWorkerTask: Reader: Writer] extends JSA
   def main(): Unit = {
     self.addEventListener("message", { e: WebWorkerMessage[String] =>
       val response = onMessage(read[T](e.data))
-      response.map { result =>
+      response.foreach { result =>
         self.postMessage(write(result))
       }
     })
